@@ -45,6 +45,44 @@ window.Renderer = (function () {
     ctx.fill();
   }
 
+  function wrapLines(ctx, text, maxWidth) {
+    var words = text.split(' ');
+    var lines = [];
+    var current = '';
+    for (var i = 0; i < words.length; i++) {
+      var word = words[i];
+      var test = current ? current + ' ' + word : word;
+      if (ctx.measureText(test).width <= maxWidth || !current) {
+        current = test;
+      } else {
+        lines.push(current);
+        current = word;
+      }
+    }
+    if (current) lines.push(current);
+    return lines;
+  }
+
+  function drawDialogue(ctx, line) {
+    ctx.fillStyle = 'rgba(0,0,0,0.6)';
+    ctx.fillRect(20, ctx.canvas.height - 100, ctx.canvas.width - 40, 80);
+
+    var left = 36;
+    var maxWidth = ctx.canvas.width - 20 - left;
+
+    ctx.fillStyle = '#fff';
+    ctx.font = '16px sans-serif';
+    var wrapped = wrapLines(ctx, line, maxWidth).slice(0, 3);
+    var topY = ctx.canvas.height - 82;
+    for (var i = 0; i < wrapped.length; i++) {
+      ctx.fillText(wrapped[i], left, topY + i * 22);
+    }
+
+    ctx.fillStyle = '#c9d6f2';
+    ctx.font = '12px sans-serif';
+    ctx.fillText('Space로 계속', left, ctx.canvas.height - 30);
+  }
+
   function drawHud(ctx, state) {
     var i;
     for (i = 0; i < 5; i++) {
@@ -66,5 +104,6 @@ window.Renderer = (function () {
     drawPlayer: drawPlayer,
     drawAurora: drawAurora,
     drawHud: drawHud,
+    drawDialogue: drawDialogue,
   };
 })();

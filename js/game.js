@@ -15,7 +15,7 @@
 
   function loop(timestamp) {
     if (lastTime === null) lastTime = timestamp;
-    var dt = (timestamp - lastTime) / 1000;
+    var dt = Math.min((timestamp - lastTime) / 1000, 0.05);
     lastTime = timestamp;
 
     SceneManager.update(dt);

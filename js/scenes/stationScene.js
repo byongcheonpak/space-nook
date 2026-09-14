@@ -63,14 +63,7 @@ window.StationScene = (function () {
       Renderer.drawHud(ctx, save);
 
       if (DialogueBox.isActive()) {
-        ctx.fillStyle = 'rgba(0,0,0,0.6)';
-        ctx.fillRect(20, ctx.canvas.height - 100, ctx.canvas.width - 40, 80);
-        ctx.fillStyle = '#fff';
-        ctx.font = '16px sans-serif';
-        ctx.fillText(DialogueBox.currentLine() || '', 36, ctx.canvas.height - 60);
-        ctx.fillStyle = '#c9d6f2';
-        ctx.font = '12px sans-serif';
-        ctx.fillText('Space로 계속', 36, ctx.canvas.height - 30);
+        Renderer.drawDialogue(ctx, DialogueBox.currentLine() || '');
       }
     },
   };
