@@ -1,25 +1,26 @@
+// js/game.js
 (function () {
   var canvas = document.getElementById('game-canvas');
   var ctx = canvas.getContext('2d');
   var loadingScreen = document.getElementById('loading-screen');
   var lastTime = null;
 
-  function update(dt) {
-    // filled in by later tasks
-  }
+  Input.attach(window);
 
-  function render(ctx) {
-    ctx.fillStyle = '#0b1026';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-  }
+  SceneManager.register('title', TitleScene.scene);
+  SceneManager.register('opening', OpeningScene.scene);
+  SceneManager.register('controls', ControlsScene.scene);
+  SceneManager.register('station', StationScene.scene);
+  SceneManager.goto('title');
 
   function loop(timestamp) {
     if (lastTime === null) lastTime = timestamp;
     var dt = (timestamp - lastTime) / 1000;
     lastTime = timestamp;
 
-    update(dt);
-    render(ctx);
+    SceneManager.update(dt);
+    SceneManager.render(ctx);
+    Input.endFrame();
 
     if (!loadingScreen.classList.contains('hidden')) {
       loadingScreen.classList.add('hidden');
